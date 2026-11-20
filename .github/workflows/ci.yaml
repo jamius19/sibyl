@@ -1,11 +1,15 @@
 # .github/workflows/ci.yaml
 # Lints and tests sibyl on pushes to main and on all pull requests.
+# On pushes to main, the release job also publishes a new package.json version to npm
+# (trusted publishing, configured on npmjs.com for this file) and creates its tag and GitHub release.
 
 name: CI
 on:
   push:
     branches: [main]
   pull_request:
+permissions:
+  contents: read
 jobs:
   ci:
     name: CI
@@ -31,3 +35,47 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: jamius19/sibyl
+  release:
+    name: Release
+    needs: ci
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Create the tag and GitHub release
+      id-token: write # npm trusted publishing (OIDC)
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+      - name: Setup Node 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: "https://registry.npmjs.org"
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build
+        run: pnpm build
+      - name: Read version
+        id: version
+        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+      - name: Publish to npm if the version is new
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          if npm view "@jamius19/sibyl@$VERSION" version > /dev/null 2>&1; then
+            echo "Version $VERSION is already on npm, skipping publish."
+          else
+            npm publish
+          fi
+      - name: Create tag and GitHub release if missing
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          if gh release view "v$VERSION" > /dev/null 2>&1; then
+            echo "Release v$VERSION already exists, skipping."
+          else
+            gh release create "v$VERSION" --target "$GITHUB_SHA" --title "v$VERSION" --generate-notes
+          fi
