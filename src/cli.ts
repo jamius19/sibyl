@@ -18,6 +18,7 @@ import { loadPlugins } from "./plugin-loader.ts";
 import { isValidHttpUrl } from "./utils.ts";
 import { runSetup, runUninstall } from "./setup-command.ts";
 import { exit } from "./exit.ts";
+import { logCommandResult } from "./logger.ts";
 import { pathToFileURL } from "node:url";
 import { readFileSync, realpathSync } from "node:fs";
 import * as process from "node:process";
@@ -144,10 +145,19 @@ async function handleSearch(
     exit(1);
   }
 
+  const logEntry = {
+    command: "search",
+    target: `"${query}"`,
+    pluginName: searchPlugin.name,
+    startedAt: performance.now(),
+  } as const;
+
   try {
     const result = await searchPlugin.fn(query, context);
+    logCommandResult({ ...logEntry, success: true });
     console.log(result);
   } catch (error) {
+    logCommandResult({ ...logEntry, success: false });
     console.error(`Error searching using ${searchPlugin.name}: ${error}`);
     exit(1);
   }
@@ -175,10 +185,19 @@ async function handleFetch(
     exit(1);
   }
 
+  const logEntry = {
+    command: "fetch",
+    target: url,
+    pluginName: fetchPlugin.name,
+    startedAt: performance.now(),
+  } as const;
+
   try {
     const result = await fetchPlugin.fn(url, context);
+    logCommandResult({ ...logEntry, success: true });
     console.log(result);
   } catch (error) {
+    logCommandResult({ ...logEntry, success: false });
     console.error(`Error fetching using ${fetchPlugin.name}: ${error}`);
     exit(1);
   }
@@ -207,10 +226,19 @@ async function handleAsk(
     exit(1);
   }
 
+  const logEntry = {
+    command: "ask",
+    target: `"${query}" on ${url}`,
+    pluginName: askPlugin.name,
+    startedAt: performance.now(),
+  } as const;
+
   try {
     const result = await askPlugin.fn(url, query, context);
+    logCommandResult({ ...logEntry, success: true });
     console.log(result);
   } catch (error) {
+    logCommandResult({ ...logEntry, success: false });
     console.error(`Error asking using ${askPlugin.name}: ${error}`);
     exit(1);
   }

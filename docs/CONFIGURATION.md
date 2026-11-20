@@ -28,6 +28,10 @@ Sibyl reads its configuration from `~/.config/sibyl/config.json`, created with s
     {
       "name": "SIBYL_ASK_TIMEOUT",
       "value": "30000"
+    },
+    {
+      "name": "SIBYL_LOGGING",
+      "value": "true"
     }
   ]
 }
@@ -77,6 +81,22 @@ the environment, Sibyl uses its current default.
 Values must be integers from `1` through `2147483647` milliseconds. Invalid values cause the selected plugin call to fail.
 The ask plugin fetches the URL first, so that request uses `SIBYL_FETCH_TIMEOUT`; `SIBYL_ASK_TIMEOUT` applies only to
 LLM generation. Parse plugins are not timed, and custom plugins are not automatically timed.
+
+### Logging
+
+Each `search`, `fetch`, and `ask` command appends one line to `~/.config/sibyl/sibyl.log`, timestamped in local time with the UTC offset. Nothing is printed, so command
+output stays unchanged. The time covers only the plugin call.
+
+```
+2026-11-20T21:11:09.000+06:00 Completed search for "react vite" using builtin-searxng-search in 1.42 seconds.
+2026-11-20T21:12:30.000+06:00 Failed fetch for https://vite.dev/guide using builtin-crawl4ai-fetch after 0.31 seconds.
+```
+
+| Variable        | Default | Description                                       |
+| --------------- | ------- | ------------------------------------------------- |
+| `SIBYL_LOGGING` | `true`  | When `"true"`, writes command results to the log. |
+
+The log file is not rotated. If it cannot be written, the command still runs normally.
 
 ## Plugin environment variables
 

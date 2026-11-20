@@ -17,6 +17,10 @@ vi.mock("./setup-command.ts", () => ({
   runUninstall: vi.fn(),
 }));
 
+vi.mock("./logger.ts", () => ({
+  logCommandResult: vi.fn(),
+}));
+
 vi.mock("./exit.ts", () => ({
   exit: vi.fn(() => {
     throw new Error("process.exit");
@@ -30,6 +34,7 @@ import { loadOrCreateConfigFile } from "./setup.ts";
 import { loadPlugins } from "./plugin-loader.ts";
 import { runSetup, runUninstall } from "./setup-command.ts";
 import { exit } from "./exit.ts";
+import { logCommandResult } from "./logger.ts";
 import type {
   AskPlugin,
   FetchPlugin,
@@ -251,6 +256,13 @@ describe("handleSearch", () => {
 
     expect(searchFn).toHaveBeenCalledWith("react", contextMatcher);
     expect(console.log).toHaveBeenCalledWith("search result");
+    expect(logCommandResult).toHaveBeenCalledWith({
+      command: "search",
+      target: '"react"',
+      pluginName: "test-search",
+      startedAt: expect.any(Number),
+      success: true,
+    });
     expect(exit).not.toHaveBeenCalled();
   });
 
@@ -280,6 +292,13 @@ describe("handleSearch", () => {
     expect(console.error).toHaveBeenCalledWith(
       expect.stringContaining("Error searching using test-search:"),
     );
+    expect(logCommandResult).toHaveBeenCalledWith({
+      command: "search",
+      target: '"react"',
+      pluginName: "test-search",
+      startedAt: expect.any(Number),
+      success: false,
+    });
     expect(exit).toHaveBeenCalledWith(1);
   });
 });
@@ -315,6 +334,13 @@ describe("handleFetch", () => {
 
     expect(fetchFn).toHaveBeenCalledWith("https://vite.dev", contextMatcher);
     expect(console.log).toHaveBeenCalledWith("fetch result");
+    expect(logCommandResult).toHaveBeenCalledWith({
+      command: "fetch",
+      target: "https://vite.dev",
+      pluginName: "test-fetch",
+      startedAt: expect.any(Number),
+      success: true,
+    });
     expect(exit).not.toHaveBeenCalled();
   });
 
@@ -326,6 +352,13 @@ describe("handleFetch", () => {
     expect(console.error).toHaveBeenCalledWith(
       expect.stringContaining("Error fetching using test-fetch:"),
     );
+    expect(logCommandResult).toHaveBeenCalledWith({
+      command: "fetch",
+      target: "https://vite.dev",
+      pluginName: "test-fetch",
+      startedAt: expect.any(Number),
+      success: false,
+    });
     expect(exit).toHaveBeenCalledWith(1);
   });
 });
@@ -359,6 +392,13 @@ describe("handleAsk", () => {
 
     expect(askFn).toHaveBeenCalledWith("https://vite.dev", "q", contextMatcher);
     expect(console.log).toHaveBeenCalledWith("ask result");
+    expect(logCommandResult).toHaveBeenCalledWith({
+      command: "ask",
+      target: '"q" on https://vite.dev',
+      pluginName: "test-ask",
+      startedAt: expect.any(Number),
+      success: true,
+    });
     expect(exit).not.toHaveBeenCalled();
   });
 
@@ -370,6 +410,13 @@ describe("handleAsk", () => {
     expect(console.error).toHaveBeenCalledWith(
       expect.stringContaining("Error asking using test-ask:"),
     );
+    expect(logCommandResult).toHaveBeenCalledWith({
+      command: "ask",
+      target: '"q" on https://vite.dev',
+      pluginName: "test-ask",
+      startedAt: expect.any(Number),
+      success: false,
+    });
     expect(exit).toHaveBeenCalledWith(1);
   });
 });
