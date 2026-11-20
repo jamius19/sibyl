@@ -1,6 +1,6 @@
 {
-  "name": "@postapsis/sibyl",
-  "version": "0.1.3",
+  "name": "@jamius19/sibyl",
+  "version": "0.2.0",
   "description": "Give your AI Agent the web, without the bloat — extensible and lightweight by design 🕷️",
   "type": "module",
   "packageManager": "pnpm@11.5.1",
@@ -12,14 +12,15 @@
     "sibyl": "dist/cli.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "NOTICE"
   ],
   "scripts": {
     "dev": "tsx src/cli.ts",
     "build": "tsc",
     "start": "node dist/cli.js",
     "typecheck": "tsc --noEmit",
-    "lint:code": "eslint --max-warnings 0 src/**/*.ts",
+    "lint:code": "eslint --max-warnings 0 \"src/**/*.ts\"",
     "lint:style": "prettier --check .",
     "lint": "pnpm lint:code && pnpm lint:style",
     "format": "prettier --write .",
@@ -43,11 +44,18 @@
     "crawl"
   ],
   "author": {
-    "name": "POST/APSIS",
-    "email": "dev@postapsis.com",
-    "url": "https://postapsis.com"
+    "name": "Jamius Siam",
+    "url": "https://sii.am"
   },
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jamius19/sibyl.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jamius19/sibyl/issues"
+  },
+  "homepage": "https://github.com/jamius19/sibyl#readme",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "^25.9.1",

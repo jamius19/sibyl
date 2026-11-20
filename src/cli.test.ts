@@ -24,6 +24,7 @@ vi.mock("./exit.ts", () => ({
 }));
 
 import { afterEach, beforeEach, describe, expect, it, vi, type Mock } from "vitest";
+import { readFileSync } from "node:fs";
 import { main } from "./cli.ts";
 import { loadOrCreateConfigFile } from "./setup.ts";
 import { loadPlugins } from "./plugin-loader.ts";
@@ -121,7 +122,12 @@ describe("dispatch & argument validation", () => {
   it.each([["--version"], ["version"]])("prints version for %s", async (arg) => {
     await main([arg]);
 
-    expect(console.log).toHaveBeenCalledWith("sibyl 0.1.3");
+    const { version } = JSON.parse(
+      readFileSync(new URL("../package.json", import.meta.url), "utf8"),
+    ) as {
+      version: string;
+    };
+    expect(console.log).toHaveBeenCalledWith(`sibyl ${version}`);
     expect(exit).not.toHaveBeenCalled();
   });
 

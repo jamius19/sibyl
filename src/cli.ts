@@ -19,7 +19,7 @@ import { isValidHttpUrl } from "./utils.ts";
 import { runSetup, runUninstall } from "./setup-command.ts";
 import { exit } from "./exit.ts";
 import { pathToFileURL } from "node:url";
-import { realpathSync } from "node:fs";
+import { readFileSync, realpathSync } from "node:fs";
 import * as process from "node:process";
 
 export async function main(argv: string[]): Promise<void> {
@@ -90,9 +90,16 @@ export async function main(argv: string[]): Promise<void> {
       runUninstall(rest);
       break;
     case "--version":
-    case "version":
-      console.log("sibyl 0.1.3");
+    case "version": {
+      // package.json is the single source of the version; it sits one level above both src/ and dist/.
+      const { version } = JSON.parse(
+        readFileSync(new URL("../package.json", import.meta.url), "utf8"),
+      ) as {
+        version: string;
+      };
+      console.log(`sibyl ${version}`);
       break;
+    }
     default:
       console.error(`Unknown command: ${command}`);
       printHelp();

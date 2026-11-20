@@ -1,9 +1,8 @@
-![sibyl Logo](https://raw.githubusercontent.com/postapsis/sibyl/refs/heads/main/media-kit/banner.png)
+![sibyl Logo](https://raw.githubusercontent.com/jamius19/sibyl/refs/heads/main/media-kit/banner.png)
 
-[![POST/APSIS Sibly Page](https://img.shields.io/badge/made_by-POST%2FAPSIS-%23000000)](https://postapsis.com/sibyl)
-[![sibyl License Page](https://img.shields.io/badge/license-Apache_2.0-brightgreen)](https://raw.githubusercontent.com/postapsis/sibyl/refs/heads/main/LICENSE)
-[![sibyl CI Status](https://github.com/postapsis/sibyl/actions/workflows/ci.yaml/badge.svg)](https://github.com/postapsis/sibyl/actions/workflows/ci.yaml)
-[![codecov](https://codecov.io/gh/postapsis/sibyl/branch/main/graph/badge.svg?token=NOTP4DPWO4)](https://codecov.io/gh/postapsis/sibyl)
+[![sibyl License Page](https://img.shields.io/badge/license-Apache_2.0-brightgreen)](https://raw.githubusercontent.com/jamius19/sibyl/refs/heads/main/LICENSE)
+[![sibyl CI Status](https://github.com/jamius19/sibyl/actions/workflows/ci.yaml/badge.svg)](https://github.com/jamius19/sibyl/actions/workflows/ci.yaml)
+[![codecov](https://codecov.io/github/jamius19/sibyl/graph/badge.svg?token=NOTP4DPWO4)](https://codecov.io/github/jamius19/sibyl)
 
 ---
 
@@ -22,7 +21,7 @@ Get a working setup in a few steps:
 1. Install **Sibyl** globally via NPM:
 
    ```bash
-   npm i -g @postapsis/sibyl
+   npm i -g @jamius19/sibyl
    ```
 
 2. Run a local [SearXNG](https://github.com/searxng/searxng) instance for searching the web:
@@ -93,12 +92,12 @@ Get a working setup in a few steps:
 
 ## Configuration
 
-See the configuration documentation for more details at [docs/CONFIGURATION.md](https://github.com/postapsis/sibyl/blob/main/docs/CONFIGURATION.md)
+See the configuration documentation for more details at [docs/CONFIGURATION.md](https://github.com/jamius19/sibyl/blob/main/docs/CONFIGURATION.md)
 
 ## Create a Plugin
 
-See the plugin development documentation for more details at [docs/CREATING-PLUGINS.md](https://github.com/postapsis/sibyl/blob/main/docs/CREATING-PLUGINS.md)
+See the plugin development documentation for more details at [docs/CREATING-PLUGINS.md](https://github.com/jamius19/sibyl/blob/main/docs/CREATING-PLUGINS.md)
 
 ## Contribution
 
-See the contribution documentation for more details at [docs/CONTRIBUTION.md](https://github.com/postapsis/sibyl/blob/main/docs/CONTRIBUTION.md)
+See the contribution documentation for more details at [docs/CONTRIBUTION.md](https://github.com/jamius19/sibyl/blob/main/docs/CONTRIBUTION.md)
