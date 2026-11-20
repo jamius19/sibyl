@@ -45,6 +45,10 @@ const DEFAULT_CONFIG: SibylConfig = {
       name: "SIBYL_ASK_TIMEOUT",
       value: "30000",
     },
+    {
+      name: "SIBYL_LOGGING",
+      value: "true",
+    },
   ],
 };
 

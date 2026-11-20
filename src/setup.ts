@@ -76,6 +76,10 @@ export function writeDefaultSibylConfig(): void {
         name: "SIBYL_ASK_TIMEOUT",
         value: "30000",
       },
+      {
+        name: "SIBYL_LOGGING",
+        value: "true",
+      },
     ],
   };
 
