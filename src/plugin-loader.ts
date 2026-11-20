@@ -71,7 +71,10 @@ async function loadExternalPlugins(): Promise<PluginTypeDeclaration[]> {
   return result;
 }
 
-function validatePlugin(plugin: any, folderName: string): PluginTypeDeclaration | null {
+function validatePlugin(
+  plugin: { SilbylPlugin?: unknown },
+  folderName: string,
+): PluginTypeDeclaration | null {
   if (!plugin?.SilbylPlugin || typeof plugin?.SilbylPlugin !== "object") {
     console.warn(
       `Skipping plugin in \`${folderName}\`: \`SilbylPlugin\` export missing or not an object.`,
